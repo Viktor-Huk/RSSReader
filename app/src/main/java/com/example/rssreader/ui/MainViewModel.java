@@ -1,4 +1,4 @@
-package com.example.rssreader;
+package com.example.rssreader.ui;
 
 import androidx.lifecycle.ViewModel;
 
