@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.rssreader.R;
-import com.example.rssreader.model.News;
+import com.example.rssreader.model.Article;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,13 +21,13 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
     private TextView newsTitle = itemView.findViewById(R.id.news_title);
     private TextView newsPubDate = itemView.findViewById(R.id.news_time);
 
-    public void bind(News news) {
+    public void bind(Article article) {
         Glide
                 .with(newsImageView.getContext())
-                .load(news.getThumbnailUri())
+                .load(article.getThumbnailUri())
                 .into(newsImageView);
 
-        newsTitle.setText(news.getTitle());
-        newsPubDate.setText(news.getPubDate());
+        newsTitle.setText(article.getTitle());
+        newsPubDate.setText(article.getPubDate());
     }
 }

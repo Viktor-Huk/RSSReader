@@ -2,14 +2,15 @@ package com.example.rssreader.model;
 
 import java.util.Objects;
 
-public class News {
+public class Article {
+
     private Long id;
     private String link;
     private String thumbnailUri;
     private String title;
     private String pubDate;
 
-    public News(Long id, String link, String thumbnailUri, String title, String pubDate) {
+    public Article(Long id, String link, String thumbnailUri, String title, String pubDate) {
         this.id = id;
         this.link = link;
         this.thumbnailUri = thumbnailUri;
@@ -18,15 +19,26 @@ public class News {
     }
 
     @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", link='" + link + '\'' +
+                ", thumbnailUri='" + thumbnailUri + '\'' +
+                ", title='" + title + '\'' +
+                ", pubDate='" + pubDate + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof News)) return false;
-        News news = (News) o;
-        return Objects.equals(getId(), news.getId()) &&
-                Objects.equals(getLink(), news.getLink()) &&
-                Objects.equals(getThumbnailUri(), news.getThumbnailUri()) &&
-                Objects.equals(getTitle(), news.getTitle()) &&
-                Objects.equals(getPubDate(), news.getPubDate());
+        if (!(o instanceof Article)) return false;
+        Article article = (Article) o;
+        return Objects.equals(getId(), article.getId()) &&
+                Objects.equals(getLink(), article.getLink()) &&
+                Objects.equals(getThumbnailUri(), article.getThumbnailUri()) &&
+                Objects.equals(getTitle(), article.getTitle()) &&
+                Objects.equals(getPubDate(), article.getPubDate());
     }
 
     @Override

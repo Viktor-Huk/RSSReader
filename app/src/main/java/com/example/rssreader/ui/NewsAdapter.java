@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.rssreader.R;
-import com.example.rssreader.model.News;
+import com.example.rssreader.model.Article;
 
-public class NewsAdapter extends ListAdapter<News, NewsViewHolder> {
+public class NewsAdapter extends ListAdapter<Article, NewsViewHolder> {
 
     protected NewsAdapter() {
         super(getNewsDiffUtilCallback());
@@ -29,19 +29,19 @@ public class NewsAdapter extends ListAdapter<News, NewsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
 
-        News news = getItem(position);
-        holder.bind(news);
+        Article article = getItem(position);
+        holder.bind(article);
     }
 
-    private static DiffUtil.ItemCallback<News> getNewsDiffUtilCallback() {
-        return new DiffUtil.ItemCallback<News>() {
+    private static DiffUtil.ItemCallback<Article> getNewsDiffUtilCallback() {
+        return new DiffUtil.ItemCallback<Article>() {
             @Override
-            public boolean areItemsTheSame(@NonNull News oldItem, @NonNull News newItem) {
+            public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
                 return oldItem.getId().equals(newItem.getId());
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull News oldItem, @NonNull News newItem) {
+            public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
                 return oldItem.equals(newItem);
             }
         };
