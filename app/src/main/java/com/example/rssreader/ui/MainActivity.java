@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mainViewModel.getFreshArticles();
-
-        mainViewModel.getFreshArticles();
     }
 
     private void initRecyclerView() {

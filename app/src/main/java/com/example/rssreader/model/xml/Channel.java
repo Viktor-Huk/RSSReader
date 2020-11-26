@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Root(name = "rss", strict = false)
-public class ListArticles {
+public class Channel {
 
     @Element(name = "title")
     @Path("channel")
@@ -19,9 +19,9 @@ public class ListArticles {
     @Path("channel")
     private List<ItemArticle> itemArticleList;
 
-    public ListArticles(){}
+    public Channel(){}
 
-    public ListArticles(String channelTitle, List<ItemArticle> itemArticleList) {
+    public Channel(String channelTitle, List<ItemArticle> itemArticleList) {
         this.channelTitle = channelTitle;
         this.itemArticleList = itemArticleList;
     }
@@ -29,8 +29,8 @@ public class ListArticles {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ListArticles)) return false;
-        ListArticles listArticles = (ListArticles) o;
+        if (!(o instanceof Channel)) return false;
+        Channel listArticles = (Channel) o;
         return Objects.equals(getChannelTitle(), listArticles.getChannelTitle()) &&
                 Objects.equals(getItemArticleList(), listArticles.getItemArticleList());
     }

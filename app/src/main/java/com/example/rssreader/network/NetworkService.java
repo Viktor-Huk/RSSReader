@@ -6,13 +6,18 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class NetworkService {
 
     private static NetworkService instance;
-    private Retrofit retrofit;
+    private RssApi rssApi;
 
     private NetworkService() {
-        retrofit = new Retrofit.Builder()
+        rssApi = new Retrofit.Builder()
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .baseUrl("http://news.tut.by/")
-                .build();
+                .build()
+                .create(RssApi.class);
+    }
+
+    public RssApi getRssApi() {
+        return rssApi;
     }
 
     public static NetworkService getInstance() {
@@ -20,9 +25,5 @@ public class NetworkService {
             instance = new NetworkService();
         }
         return instance;
-    }
-
-    public ArticleApi getArticleApi() {
-        return retrofit.create(ArticleApi.class);
     }
 }
