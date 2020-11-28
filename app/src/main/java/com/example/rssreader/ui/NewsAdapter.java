@@ -13,8 +13,11 @@ import com.example.rssreader.model.Article;
 
 public class NewsAdapter extends ListAdapter<Article, NewsViewHolder> {
 
-    protected NewsAdapter() {
+    private OnArticleClickListener onArticleClickListener;
+
+    protected NewsAdapter(OnArticleClickListener onArticleClickListener) {
         super(getNewsDiffUtilCallback());
+        this.onArticleClickListener = onArticleClickListener;
     }
 
     @NonNull
@@ -31,6 +34,8 @@ public class NewsAdapter extends ListAdapter<Article, NewsViewHolder> {
 
         Article article = getItem(position);
         holder.bind(article);
+
+        holder.itemView.setOnClickListener(v -> onArticleClickListener.onClick(article));
     }
 
     private static DiffUtil.ItemCallback<Article> getNewsDiffUtilCallback() {
