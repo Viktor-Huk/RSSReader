@@ -15,6 +15,8 @@ import java.util.List;
 
 public class MainViewModel extends ViewModel {
 
+    private static final String TAG = MainViewModel.class.getSimpleName();
+
     private ArticleRepository articleRepository = ArticleRepository.getInstance(
             new LocalDataSourceImpl(),
             new RemoteDataSourceImpl()
@@ -23,20 +25,34 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<List<Article>> _articles = new MutableLiveData<>();
     private LiveData<List<Article>> articles = _articles;
 
+    private MutableLiveData<Boolean> _errorState = new MutableLiveData<>();
+    private LiveData<Boolean> errorState = _errorState;
+
+    public LiveData<Boolean> getErrorState() {
+        return errorState;
+    }
+
     public LiveData<List<Article>> getArticles() {
         return articles;
     }
 
     void getFreshArticles() {
-        articleRepository.getArticles(event -> {
-            Log.i("TAG", "MainViewModel: " + event.getArticles().toString());
-            _articles.setValue(event.getArticles());
-        });
-    }
+        _errorState.setValue(false);
 
-    @Override
-    protected void onCleared() {
-        articleRepository.shutdownWorkedThread();
-        super.onCleared();
+        articleRepository.getData(event -> {
+
+            switch (event.getStatus()) {
+                case SUCCESS: {
+                    _errorState.postValue(false);
+                    _articles.postValue(event.getData());
+                }
+                    break;
+                case ERROR: {
+                    _errorState.postValue(true);
+                }
+                    break;
+            }
+            Log.i(TAG, "Thread: " + Thread.currentThread().getName());
+        });
     }
 }

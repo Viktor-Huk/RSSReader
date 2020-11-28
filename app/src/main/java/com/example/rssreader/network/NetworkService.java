@@ -1,5 +1,8 @@
 package com.example.rssreader.network;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -7,6 +10,7 @@ public class NetworkService {
 
     private static NetworkService instance;
     private RssApi rssApi;
+    public static final ExecutorService networkExecutor = Executors.newSingleThreadExecutor();
 
     private NetworkService() {
         rssApi = new Retrofit.Builder()

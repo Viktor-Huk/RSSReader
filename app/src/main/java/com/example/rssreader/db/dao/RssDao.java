@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface RssDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addAll(List<ArticleEntity> articles);
 
     @Query("SELECT * FROM article_table")

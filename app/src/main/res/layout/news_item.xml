@@ -22,11 +22,10 @@
         android:layout_marginStart="@dimen/medium_margin"
         android:layout_marginLeft="@dimen/medium_margin"
         android:text="Example text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/news_image"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView

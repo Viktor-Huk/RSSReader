@@ -6,10 +6,13 @@ public class App extends Application {
 
     private static App INSTANCE;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        INSTANCE = this;
+    }
+
     public static App getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new App();
-        }
         return INSTANCE;
     }
 }

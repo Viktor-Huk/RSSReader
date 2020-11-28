@@ -37,7 +37,7 @@ public class NewsAdapter extends ListAdapter<Article, NewsViewHolder> {
         return new DiffUtil.ItemCallback<Article>() {
             @Override
             public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
-                return oldItem.getId().equals(newItem.getId());
+                return oldItem.getLink().equals(newItem.getLink());
             }
 
             @Override

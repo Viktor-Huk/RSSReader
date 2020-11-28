@@ -2,17 +2,21 @@ package com.example.rssreader.repository;
 
 import android.util.Log;
 
+import com.example.rssreader.db.RssRoomDatabase;
+import com.example.rssreader.db.entity.ArticleEntity;
 import com.example.rssreader.db.localdatasource.LocalDataSource;
 import com.example.rssreader.model.Article;
 import com.example.rssreader.model.xml.Channel;
 import com.example.rssreader.network.Event;
-import com.example.rssreader.network.MainViewModelCallback;
+import com.example.rssreader.network.EventCallback;
+import com.example.rssreader.network.NetworkService;
 import com.example.rssreader.network.remotedatasource.RemoteDataSource;
+import com.example.rssreader.ui.MainViewModel;
+import com.example.rssreader.utils.ListMapper;
+import com.example.rssreader.utils.ListMapperImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,11 +24,11 @@ import retrofit2.Response;
 
 public class ArticleRepository {
 
+    private static final String TAG = ArticleRepository.class.getSimpleName();
     private static ArticleRepository instance;
     private RemoteDataSource remoteDataSource;
     private LocalDataSource localDataSource;
-
-    private ExecutorService executer = Executors.newSingleThreadExecutor();
+    private ListMapper mapper = new ListMapperImpl();
 
     private ArticleRepository(
             LocalDataSource localDataSource,
@@ -44,11 +48,31 @@ public class ArticleRepository {
         return instance;
     }
 
-    public void getArticles(MainViewModelCallback callback) {
+    public void getData(EventCallback callback) {
+        refreshData(callback);
+    }
 
-        Runnable task = () -> {
+    private void getDataFromDatabase(EventCallback callback) {
+        List<ArticleEntity> freshArticleEntities = localDataSource.getRssDao().getAll();
 
-            Log.i("TAG", "Runnable, thread: " + Thread.currentThread().getName());
+        if (freshArticleEntities == null || freshArticleEntities.isEmpty()) {
+            callback.call(Event.error());
+            Log.i(TAG, "Database is null or empty");
+        } else {
+            List<Article> articles = new ArrayList<>();
+
+            for (int i = 0; i < freshArticleEntities.size(); i++) {
+                articles.add(new Article(freshArticleEntities.get(i)));
+            }
+            callback.call(Event.success(articles));
+        }
+    }
+
+    private void refreshData(EventCallback callback) {
+
+        NetworkService.networkExecutor.execute(() -> {
+
+            Log.i(TAG, "Refresh data thread: " + Thread.currentThread().getName());
 
             Call<Channel> call = remoteDataSource.getRssApi().getChannel();
             call.enqueue(new Callback<Channel>() {
@@ -56,45 +80,39 @@ public class ArticleRepository {
                 @Override
                 public void onResponse(Call<Channel> call, Response<Channel> response) {
 
-                    Log.i("TAG", "On response, thread: " + Thread.currentThread().getName());
-
                     if (response.isSuccessful()) {
-                        List<Article> list = new ArrayList();
-                        Channel r = response.body();
+                        Channel channel = response.body();
+                        List<ArticleEntity> list = mapper.map(channel);
 
-                        for (int i = 0; i < r.getItemArticleList().size(); i++) {
-                            String link = r.getItemArticleList().get(i).getLink();
-                            String thumbnailUri = r.getItemArticleList().get(i).getEnclosure().getUrl();
-                            String title = r.getItemArticleList().get(i).getTitle();
-                            String pubDate = r.getItemArticleList().get(i).getPubDate();
+                        Log.i(TAG, "On response thread: " + Thread.currentThread().getName());
 
-                            Article article = new Article(1L, link, thumbnailUri, title, pubDate);
-                            list.add(article);
-                        }
+                        RssRoomDatabase.databaseExecutor.execute(() -> {
+                            localDataSource.getRssDao().addAll(list);
+                            getDataFromDatabase(callback);
+                        });
 
-                        callback.call(Event.success(list));
-
-                        Log.i("TAG", "On response is successful: " + list.toString());
                     } else {
-                        Log.i("TAG", "On response is not successful");
+                        callback.call(Event.error());
+
+                        RssRoomDatabase.databaseExecutor.execute(() -> {
+                            getDataFromDatabase(callback);
+                        });
+
+                        Log.i(TAG, "On response is not successful");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Channel> call, Throwable t) {
-                    Log.i("TAG", "On failure: " + t);
+                    callback.call(Event.error());
+
+                    RssRoomDatabase.databaseExecutor.execute(() -> {
+                        getDataFromDatabase(callback);
+                    });
+
+                    Log.i(TAG, "On failure: " + t);
                 }
             });
-        };
-
-        executer.submit(task);
-    }
-
-    private void refreshData() {
-
-    }
-
-    public void shutdownWorkedThread() {
-        executer.shutdown();
+        });
     }
 }
