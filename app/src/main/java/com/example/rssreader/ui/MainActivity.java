@@ -1,6 +1,7 @@
 package com.example.rssreader.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +13,7 @@ import com.example.rssreader.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NavController navController;
+    public NavController navController;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private MainViewModel mainViewModel;

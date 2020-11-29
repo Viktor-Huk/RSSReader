@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.rssreader.ui.details.DetailsFragment"
-        android:label="details_fragment"
+        android:label="@string/app_name"
         tools:layout="@layout/details_fragment" />
 </navigation>

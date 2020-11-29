@@ -1,27 +1,26 @@
 package com.example.rssreader.ui.list;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.rssreader.R;
 import com.example.rssreader.databinding.ListFragmentBinding;
 import com.example.rssreader.model.Article;
+import com.example.rssreader.ui.details.DetailsFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 public class ListFragment extends Fragment {
@@ -114,10 +113,10 @@ public class ListFragment extends Fragment {
 
     private void openArticleInWebView(Article article) {
         String link = article.getLink();
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
 
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString(DetailsFragment.LINK, link);
+
+        NavHostFragment.findNavController(this).navigate(R.id.action_listFragment_to_detailsFragment, bundle);
     }
 }

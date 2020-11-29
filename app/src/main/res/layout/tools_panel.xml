@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="10"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <ImageView
+        android:id="@+id/arrow_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:src="@drawable/arrow_back_100" />
+
+    <ImageView
+        android:id="@+id/arrow_forward"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:src="@drawable/arrow_forward_24" />
+
+    <ImageView
+        android:id="@+id/refresh"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:src="@drawable/refresh_100" />
+
+    <ImageView
+        android:id="@+id/stop"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:src="@drawable/stop_100" />
+
+    <ImageView
+        android:id="@+id/open_in_browser"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:src="@drawable/open_in_browser_100" />
+
+</LinearLayout>
