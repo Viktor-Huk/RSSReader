@@ -11,11 +11,11 @@ import com.example.rssreader.network.Event;
 import com.example.rssreader.network.EventCallback;
 import com.example.rssreader.network.NetworkService;
 import com.example.rssreader.network.remotedatasource.RemoteDataSource;
-import com.example.rssreader.ui.MainViewModel;
-import com.example.rssreader.utils.ListMapper;
-import com.example.rssreader.utils.ListMapperImpl;
+import com.example.rssreader.utils.mapper.MapperArticleEntitiesToArticle;
+import com.example.rssreader.utils.mapper.MapperArticleEntitiesToArticleImpl;
+import com.example.rssreader.utils.mapper.MapperChannelToList;
+import com.example.rssreader.utils.mapper.MapperChannelToListImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,7 +28,8 @@ public class ArticleRepository {
     private static ArticleRepository instance;
     private RemoteDataSource remoteDataSource;
     private LocalDataSource localDataSource;
-    private ListMapper mapper = new ListMapperImpl();
+    private MapperChannelToList mapperChannelToList = new MapperChannelToListImpl();
+    private MapperArticleEntitiesToArticle mapperArticleEntitiesToArticle = new MapperArticleEntitiesToArticleImpl();
 
     private ArticleRepository(
             LocalDataSource localDataSource,
@@ -59,11 +60,8 @@ public class ArticleRepository {
             callback.call(Event.error());
             Log.i(TAG, "Database is null or empty");
         } else {
-            List<Article> articles = new ArrayList<>();
+            List<Article> articles = mapperArticleEntitiesToArticle.map(freshArticleEntities);
 
-            for (int i = 0; i < freshArticleEntities.size(); i++) {
-                articles.add(new Article(freshArticleEntities.get(i)));
-            }
             callback.call(Event.success(articles));
         }
     }
@@ -82,9 +80,9 @@ public class ArticleRepository {
 
                     if (response.isSuccessful()) {
                         Channel channel = response.body();
-                        List<ArticleEntity> list = mapper.map(channel);
+                        List<ArticleEntity> list = mapperChannelToList.map(channel);
 
-                        Log.i(TAG, "On response thread: " + Thread.currentThread().getName());
+                        Log.i(TAG, "On response: " + list.toString());
 
                         RssRoomDatabase.databaseExecutor.execute(() -> {
                             localDataSource.getRssDao().addAll(list);

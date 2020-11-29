@@ -2,4 +2,5 @@
     <string name="app_name">RSSReader</string>
     <string name="connection_error">Connection error</string>
     <string name="snackbar_button_text">REFRESH</string>
+    <string name="read">READ</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.rssreader.utils;
+package com.example.rssreader.utils.mapper;
 
 interface Mapper<I, O> {
 

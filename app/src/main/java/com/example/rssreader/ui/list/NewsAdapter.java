@@ -1,4 +1,4 @@
-package com.example.rssreader.ui;
+package com.example.rssreader.ui.list;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +33,12 @@ public class NewsAdapter extends ListAdapter<Article, NewsViewHolder> {
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
 
         Article article = getItem(position);
-        holder.bind(article);
 
-        holder.itemView.setOnClickListener(v -> onArticleClickListener.onClick(article));
+        holder.itemView.setOnClickListener((view) -> {
+            onArticleClickListener.onClick(article);
+        });
+
+        holder.bind(article);
     }
 
     private static DiffUtil.ItemCallback<Article> getNewsDiffUtilCallback() {

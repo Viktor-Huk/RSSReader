@@ -1,4 +1,4 @@
-package com.example.rssreader.ui;
+package com.example.rssreader.ui.list;
 
 import com.example.rssreader.model.Article;
 

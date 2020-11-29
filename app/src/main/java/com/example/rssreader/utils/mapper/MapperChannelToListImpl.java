@@ -1,4 +1,4 @@
-package com.example.rssreader.utils;
+package com.example.rssreader.utils.mapper;
 
 import com.example.rssreader.db.entity.ArticleEntity;
 import com.example.rssreader.model.xml.Channel;
@@ -6,7 +6,7 @@ import com.example.rssreader.model.xml.Channel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListMapperImpl implements ListMapper {
+public class MapperChannelToListImpl implements MapperChannelToList {
 
     @Override
     public List<ArticleEntity> map(Channel input) {
@@ -16,9 +16,9 @@ public class ListMapperImpl implements ListMapper {
             String link = input.getItemArticleList().get(i).getLink();
             String thumbnailUri = input.getItemArticleList().get(i).getEnclosure().getUrl();
             String title = input.getItemArticleList().get(i).getTitle();
-            String pubDate = input.getItemArticleList().get(i).getPubDate();
+            String date = input.getItemArticleList().get(i).getPubDate();
 
-            ArticleEntity article = new ArticleEntity(link, thumbnailUri, title, pubDate);
+            ArticleEntity article = new ArticleEntity(link, thumbnailUri, title, date);
             list.add(article);
         }
 

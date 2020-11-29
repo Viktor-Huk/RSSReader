@@ -1,4 +1,4 @@
-package com.example.rssreader.ui;
+package com.example.rssreader.ui.list;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.rssreader.R;
 import com.example.rssreader.model.Article;
+import com.example.rssreader.utils.formatter.DateFormatter;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
 
@@ -19,7 +20,7 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView newsImageView = itemView.findViewById(R.id.news_image);
     private TextView newsTitle = itemView.findViewById(R.id.news_title);
-    private TextView newsPubDate = itemView.findViewById(R.id.news_time);
+    private TextView pubDate = itemView.findViewById(R.id.news_date);
 
     public void bind(Article article) {
         Glide
@@ -28,6 +29,8 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
                 .into(newsImageView);
 
         newsTitle.setText(article.getTitle());
-        newsPubDate.setText(article.getPubDate());
+
+        String date = DateFormatter.formatDateToString(article.getPubDate());
+        pubDate.setText(date);
     }
 }

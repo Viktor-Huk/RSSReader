@@ -5,13 +5,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(tableName = "article_table")
-public class ArticleEntity {
-
-//    @PrimaryKey(autoGenerate = true)
-//    public Long id;
+public class ArticleEntity implements Comparable<ArticleEntity> {
 
     @PrimaryKey
     @NonNull
@@ -41,6 +39,16 @@ public class ArticleEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getLink(), getThumbnailUri(), getTitle(), getPubDate());
+    }
+
+    @Override
+    public String toString() {
+        return "ArticleEntity{" +
+                "link='" + link + '\'' +
+                ", thumbnailUri='" + thumbnailUri + '\'' +
+                ", title='" + title + '\'' +
+                ", pubDate='" + pubDate + '\'' +
+                '}';
     }
 
     public String getLink() {
@@ -80,5 +88,10 @@ public class ArticleEntity {
         this.thumbnailUri = thumbnailUri;
         this.title = title;
         this.pubDate = pubDate;
+    }
+
+    @Override
+    public int compareTo(ArticleEntity o) {
+        return this.getPubDate().compareTo(o.getPubDate());
     }
 }

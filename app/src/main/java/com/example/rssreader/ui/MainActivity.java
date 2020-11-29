@@ -1,27 +1,22 @@
 package com.example.rssreader.ui;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.rssreader.R;
 import com.example.rssreader.databinding.ActivityMainBinding;
-import com.example.rssreader.model.Article;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
+
+    private NavController navController;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private MainViewModel mainViewModel;
     private ActivityMainBinding binding;
-    private NewsAdapter newsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,72 +24,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
-        initRecyclerView();
-        initObserves();
-        refreshData();
-
-        mainViewModel.getFreshArticles();
-    }
-
-    private void refreshData() {
-
-        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
-            mainViewModel.getFreshArticles();
-
-            binding.swipeRefreshLayout.postDelayed(() -> {
-                binding.swipeRefreshLayout.setRefreshing(false);
-            }, 2000L);
-        });
-    }
-
-    private void initObserves() {
-        mainViewModel.getArticles().observe(this, articles -> {
-            newsAdapter.submitList(articles);
-            Log.i(TAG, "list articles size: " + newsAdapter.getCurrentList().size());
-        });
-
-        mainViewModel.getErrorState().observe(this, errorState -> {
-            if (errorState) {
-                showSnackBar();
-            }
-        });
-    }
-
-    private void showSnackBar() {
-        Log.i(TAG, "Snack bar");
-
-        Snackbar.make(
-                binding.getRoot(),
-                getString(R.string.connection_error),
-                Snackbar.LENGTH_LONG
-        ).show();
-    }
-
-    private void initRecyclerView() {
-        newsAdapter = new NewsAdapter(article -> {
-            openArticleInBrowser(article);
-        });
-
-        RecyclerView recyclerView = binding.mainRecyclerView;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(newsAdapter);
-
-        recyclerView.addItemDecoration(
-                new DividerItemDecoration(
-                        this,
-                        LinearLayoutManager.VERTICAL
-                )
-        );
-    }
-
-    private void openArticleInBrowser(Article article) {
-        String link = article.getLink();
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
     }
 }

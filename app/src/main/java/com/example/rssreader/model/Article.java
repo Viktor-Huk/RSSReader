@@ -1,29 +1,21 @@
 package com.example.rssreader.model;
 
-import com.example.rssreader.db.entity.ArticleEntity;
-
+import java.util.Date;
 import java.util.Objects;
 
-public class Article {
+public class Article implements Comparable<Article> {
 
     //private Long id;
     private String link;
     private String thumbnailUri;
     private String title;
-    private String pubDate;
+    private Date pubDate;
 
-    public Article(String link, String thumbnailUri, String title, String pubDate) {
+    public Article(String link, String thumbnailUri, String title, Date pubDate) {
         this.link = link;
         this.thumbnailUri = thumbnailUri;
         this.title = title;
         this.pubDate = pubDate;
-    }
-
-    public Article(ArticleEntity articleEntity) {
-        this.link = articleEntity.link;
-        this.thumbnailUri = articleEntity.thumbnailUri;
-        this.title = articleEntity.title;
-        this.pubDate = articleEntity.pubDate;
     }
 
     @Override
@@ -76,11 +68,25 @@ public class Article {
         this.title = title;
     }
 
-    public String getPubDate() {
+    public Date getPubDate() {
         return pubDate;
     }
 
-    public void setPubDate(String pubDate) {
+    public void setPubDate(Date pubDate) {
         this.pubDate = pubDate;
+    }
+
+    @Override
+    public int compareTo(Article o) {
+
+        int res = this.getPubDate().compareTo(o.getPubDate());
+
+        if (res > 0) {
+            res = -1;
+        } else if (res < 0) {
+            res = 1;
+        }
+
+        return res;
     }
 }

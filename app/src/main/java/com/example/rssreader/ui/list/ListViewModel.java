@@ -1,4 +1,4 @@
-package com.example.rssreader.ui;
+package com.example.rssreader.ui.list;
 
 import android.util.Log;
 
@@ -13,9 +13,9 @@ import com.example.rssreader.repository.ArticleRepository;
 
 import java.util.List;
 
-public class MainViewModel extends ViewModel {
+public class ListViewModel extends ViewModel {
 
-    private static final String TAG = MainViewModel.class.getSimpleName();
+    private static final String TAG = ListViewModel.class.getSimpleName();
 
     private ArticleRepository articleRepository = ArticleRepository.getInstance(
             new LocalDataSourceImpl(),
@@ -46,13 +46,13 @@ public class MainViewModel extends ViewModel {
                     _errorState.postValue(false);
                     _articles.postValue(event.getData());
                 }
-                    break;
+                break;
                 case ERROR: {
                     _errorState.postValue(true);
                 }
-                    break;
+                break;
             }
-            Log.i(TAG, "Main view model list: " + event.getData().toString());
+            Log.i(TAG, "List: " + event.getData().toString());
         });
     }
 }
