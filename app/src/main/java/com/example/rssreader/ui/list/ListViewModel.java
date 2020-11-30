@@ -1,7 +1,5 @@
 package com.example.rssreader.ui.list;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -52,7 +50,6 @@ public class ListViewModel extends ViewModel {
                 }
                 break;
             }
-            Log.i(TAG, "List: " + event.getData().toString());
         });
     }
 }

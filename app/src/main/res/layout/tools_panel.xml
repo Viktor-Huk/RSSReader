@@ -21,7 +21,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_weight="2"
-        android:src="@drawable/arrow_forward_24" />
+        android:src="@drawable/arrow_forward_100" />
 
     <ImageView
         android:id="@+id/refresh"
@@ -30,12 +30,13 @@
         android:layout_weight="2"
         android:src="@drawable/refresh_100" />
 
+
     <ImageView
         android:id="@+id/stop"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_weight="2"
-        android:src="@drawable/stop_100" />
+        android:src="@drawable/clear_100" />
 
     <ImageView
         android:id="@+id/open_in_browser"

@@ -1,10 +1,12 @@
 package com.example.rssreader.ui.details;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ public class DetailsFragment extends Fragment {
 
     private DetailsFragmentBinding binding;
     private DetailsViewModel mViewModel;
+    private WebView webView;
 
     public static DetailsFragment newInstance() {
         return new DetailsFragment();
@@ -37,13 +40,48 @@ public class DetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 
-        binding.webView.getSettings().setJavaScriptEnabled(true);
+        webView = binding.webView;
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new MyWebViewClient());
 
         String link = getArguments().getString(LINK);
-        binding.webView.loadUrl(link);
+
+        initOnClickListeners();
+
+        webView.loadUrl(link);
+    }
+
+    private void initOnClickListeners() {
 
         binding.include.arrowBack.setOnClickListener(view -> {
-            Toast.makeText(view.getContext(), "arrow back", Toast.LENGTH_LONG).show();
+            if (webView.canGoBack()) {
+                webView.goBack();
+            }
         });
+
+        binding.include.arrowForward.setOnClickListener(view -> {
+            if (webView.canGoForward()) {
+                webView.goForward();
+            }
+        });
+
+        binding.include.openInBrowser.setOnClickListener(view -> {
+            String link = webView.getUrl();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        });
+
+        binding.include.refresh.setOnClickListener(view -> {
+            webView.reload();
+        });
+
+        binding.include.stop.setOnClickListener(view -> {
+            webView.stopLoading();
+        });
+
     }
 }
