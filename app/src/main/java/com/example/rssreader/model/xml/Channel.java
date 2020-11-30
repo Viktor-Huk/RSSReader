@@ -44,15 +44,8 @@ public class Channel {
         return channelTitle;
     }
 
-    public void setChannelTitle(String channelTitle) {
-        this.channelTitle = channelTitle;
-    }
-
     public List<ItemArticle> getItemArticleList() {
         return itemArticleList;
     }
 
-    public void setItemArticleList(List<ItemArticle> itemArticleList) {
-        this.itemArticleList = itemArticleList;
-    }
 }

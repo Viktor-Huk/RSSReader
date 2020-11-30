@@ -6,17 +6,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.details.DetailsFragment">
 
-    <WebView
-        android:id="@+id/web_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/details_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/include"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/include"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/details_swipe_refresh_layout"
+            app:layout_constraintStart_toStartOf="@id/details_swipe_refresh_layout"
+            app:layout_constraintEnd_toEndOf="@id/details_swipe_refresh_layout"
+            app:layout_constraintBottom_toTopOf="@id/details_swipe_refresh_layout"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <include
         android:id="@+id/include"
         layout="@layout/tools_panel"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

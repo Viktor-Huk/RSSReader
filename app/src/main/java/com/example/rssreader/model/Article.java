@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class Article implements Comparable<Article> {
 
-    //private Long id;
     private String link;
     private String thumbnailUri;
     private String title;

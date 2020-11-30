@@ -54,32 +54,16 @@ public class ArticleEntity implements Comparable<ArticleEntity> {
         return link;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
-
     public String getThumbnailUri() {
         return thumbnailUri;
-    }
-
-    public void setThumbnailUri(String thumbnailUri) {
-        this.thumbnailUri = thumbnailUri;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getPubDate() {
         return pubDate;
-    }
-
-    public void setPubDate(String pubDate) {
-        this.pubDate = pubDate;
     }
 
     public ArticleEntity(String link, String thumbnailUri, String title, String pubDate) {

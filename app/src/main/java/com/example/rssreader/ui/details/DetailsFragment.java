@@ -21,7 +21,6 @@ public class DetailsFragment extends Fragment {
     private static final String TAG = DetailsFragment.class.getSimpleName();
 
     private DetailsFragmentBinding binding;
-    private DetailsViewModel mViewModel;
     private WebView webView;
 
     public static DetailsFragment newInstance() {
@@ -38,7 +37,6 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
 
         webView = binding.webView;
 
@@ -46,10 +44,10 @@ public class DetailsFragment extends Fragment {
         webView.setWebViewClient(new MyWebViewClient());
 
         String link = getArguments().getString(LINK);
+        webView.loadUrl(link);
 
         initOnClickListeners();
-
-        webView.loadUrl(link);
+        initSwipe();
     }
 
     private void initOnClickListeners() {
@@ -83,5 +81,16 @@ public class DetailsFragment extends Fragment {
             webView.stopLoading();
         });
 
+    }
+
+    private void initSwipe() {
+
+        binding.detailsSwipeRefreshLayout.setOnRefreshListener(() -> {
+            webView.reload();
+
+            binding.detailsSwipeRefreshLayout.postDelayed(() -> {
+                binding.detailsSwipeRefreshLayout.setRefreshing(false);
+            }, 2000L);
+        });
     }
 }

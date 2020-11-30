@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/listFragment">
+    app:startDestination="@id/listFragmentDest">
 
     <fragment
-        android:id="@+id/listFragment"
+        android:id="@+id/listFragmentDest"
         android:name="com.example.rssreader.ui.list.ListFragment"
         android:label="list_fragment"
         tools:layout="@layout/list_fragment" >
         <action
             android:id="@+id/action_listFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment"
+            app:destination="@id/detailsFragmentDest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/detailsFragment"
+        android:id="@+id/detailsFragmentDest"
         android:name="com.example.rssreader.ui.details.DetailsFragment"
         android:label="@string/app_name"
         tools:layout="@layout/details_fragment" />

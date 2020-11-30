@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -46,12 +45,15 @@ public class ListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         listViewModel = new ViewModelProvider(this).get(ListViewModel.class);
+
+        binding.swipeRefreshLayout.setRefreshing(true);
 
         initRecyclerView();
         initObserves();
@@ -74,6 +76,7 @@ public class ListFragment extends Fragment {
     private void initObserves() {
         listViewModel.getArticles().observe(getViewLifecycleOwner(), articles -> {
             newsAdapter.submitList(articles);
+            binding.swipeRefreshLayout.setRefreshing(false);
             Log.i(TAG, "list articles size: " + newsAdapter.getCurrentList().size());
         });
 
